@@ -30,6 +30,7 @@ def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_fu
 
     for i in range(0,nb_dense_layer):
         model.add(tf.keras.layers.Dense(nb_neurones[i], activation=activation_functions.activation_funcs[activation_function]))
-
+    model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+    
     model.compile(optimizer=Adam(learning_rate=learning_rate), loss='binary_crossentropy', metrics=['accuracy'])
     return model
