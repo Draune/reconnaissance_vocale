@@ -21,7 +21,7 @@ tf.keras.backend.set_floatx('float32')
 model = tf.keras.Sequential()
 
 model.add(tf.keras.layers.Input(shape=(13, 48, 1)))
-model.add(tf.keras.layers.MaxPooling2D((3, 3)))
+model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.Flatten())
 
 # Couche dense
@@ -32,7 +32,7 @@ model.add(tf.keras.layers.Dense(30, activation='sigmoid'))
 model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
 # Compiler le modèle
-model.compile(optimizer=Adam(learning_rate=0.05), loss='binary_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=Adam(learning_rate=0.005), loss='binary_crossentropy', metrics=['accuracy'])
 
 # Résumé du modèle
 model.summary()
@@ -40,4 +40,4 @@ model.summary()
 log_dir = "/home/louis/Documents/ece_traitement_numerique_signal/projet/logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
-model.fit(training.training_inputs,training.training_outputs,epochs=1,validation_data=(test.test_inputs,test.test_outputs),callbacks=[tensorboard_callback])
+model.fit(training.training_inputs,training.training_outputs,epochs=300,validation_data=(test.test_inputs,test.test_outputs),callbacks=[tensorboard_callback])

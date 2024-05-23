@@ -23,7 +23,7 @@ def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_fu
             combined_kernels = np.concatenate([filters.filters[num_filters[0]],filters.filters[num_filters[1]]], axis=-1)
         else:
             combined_kernels = np.concatenate([filters.filters[num_filters[0]],filters.filters[num_filters[1]],filters.filters[num_filters[2]]], axis=-1)
-        conv_layer.set_weights([combined_kernels])
+        conv_layer.set_weights(combined_kernels)
         model.add(conv_layer)
     model.add(tf.keras.layers.MaxPooling2D((2, 2)))
     model.add(tf.keras.layers.Flatten())
