@@ -5,10 +5,11 @@ import numpy as np
 import datetime
 import random
 import filters
+import activation_functions
 
 tf.keras.backend.set_floatx('float32')
 
-def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_function,learning_rate,epochs,is_biased):
+def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_function,learning_rate,is_biased):
     model = tf.keras.Sequential()
     model.add(tf.keras.layers.Input(shape=(13, 48, 1)))
 
@@ -28,6 +29,7 @@ def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_fu
     model.add(tf.keras.layers.Flatten())
 
     for i in range(0,nb_dense_layer):
-        model.add(tf.keras.layers.Dense(nb_neurones[i], activation='sigmoid'))
+        model.add(tf.keras.layers.Dense(nb_neurones[i], activation=activation_functions.activation_funcs[activation_function]))
 
     model.compile(optimizer=Adam(learning_rate=learning_rate), loss='binary_crossentropy', metrics=['accuracy'])
+    return model
