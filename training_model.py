@@ -9,11 +9,11 @@ import activation_functions
 
 tf.keras.backend.set_floatx('float32')
 
-def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_function,learning_rate,is_biased):
+def create_model(nb_filters,num_filters,nb_dense_layer,nb_neurones,activation_function,learning_rate):
     model = tf.keras.Sequential()
     model.add(tf.keras.layers.Input(shape=(13, 48, 1)))
 
-    conv_layer = tf.keras.layers.Conv2D(nb_filters, (3, 3), activation='linear', use_bias=is_biased)
+    conv_layer = tf.keras.layers.Conv2D(nb_filters, (3, 3), activation='linear')
     conv_layer.build((None, 13, 48, 1))  # Construire la couche pour initialiser les poids
     if (nb_filters > 0):
         combined_kernels = []
