@@ -2,9 +2,9 @@
 #define TEST_H
 
 // Le dataset de test est constitué de 10 tableaux de 48 frames de 13 MFCCs. Les 5 premiers tableaux ( 48*13 ) representent les MCCs associé à un enregistrement du mot "Rouge" puis les 5 suivant, du mot "Bleu" 
-const float testDataResults[10] = {1,1,1,1,1,0,0,0,0,0};
+float testDataResults[10] = {1,1,1,1,1,0,0,0,0,0};
 
-const float testData[10][48][13] = 
+float testData[10][48][13] = 
 {
   { 
   {0.211, 0.251, 0.261, 0.296, 0.321, 0.326, 0.344, 0.343, 0.359, 0.361, 0.369, 0.373, 0.384},
