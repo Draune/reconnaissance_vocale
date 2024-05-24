@@ -1,0 +1,28 @@
+#include <Arduino.h>
+#include "buffer.h"
+
+void setup() {
+    Serial.begin(9600);
+    Serial.print('\n');
+    Serial.print("test buffer :");
+    Serial.print('\n');
+    for(uint16_t i = 0; i<40;i++){
+        buff_new_val(i);
+        print_buffer();
+    }
+    Serial.print('\n');
+    Serial.print("test temps buffer :");
+    uint32_t debut = micros();
+    for(uint16_t i = 0; i<40;i++){
+        buff_new_val(i);
+    }
+    uint32_t fin = micros();
+    Serial.print((fin-debut)/40);
+    Serial.println(" us");
+    Serial.print('\n');
+    Serial.print('\n');
+    Serial.print('\n');
+}
+
+void loop() {
+}
