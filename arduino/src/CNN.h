@@ -6,6 +6,6 @@
 #include"flatten.h"
 #include"NN.h"
 
-float prediction(float inputs[CNNDATA_INPUT_SIZE_X][CNNDATA_INPUT_SIZE_Y]);
+void prediction(float inputs[CNNDATA_INPUT_SIZE_X][CNNDATA_INPUT_SIZE_Y],float outputs[NN_OUTPUT_SIZE]);
 
 #endif
