@@ -1,6 +1,6 @@
 import numpy as np
 
-# Le dataset de test est constitué de 10 tableaux de 48 frames de 13 MFCCs. Les 5 premiers tableaux ( 48*13 ) representent les MCCs associé à un enregistrement du mot "Rouge" puis les 5 suivant, du mot "Bleu" 
+# Le dataset de test est constitué de 10 tableaux de 60 frames de 13 MFCCs. Les 5 premiers tableaux ( 60*13 ) representent les MCCs associé à un enregistrement du mot "bonjour" puis les 5 suivant, des mots "ça va" 
 test_outputs = np.array([
     1,1,1,1,1,0,0,0,0,0
 ],dtype = np.float32)
