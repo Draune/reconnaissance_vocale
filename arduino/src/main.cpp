@@ -11,23 +11,14 @@ void setup()
     Serial.begin(9600);
     acquisition(data);
     init_MFCC();
-
     MFCC(data, mfcc_data);
-    Serial.print("\n[");
-    for (int j = 0; j < MFCC_OUTPUT_SIZE_X; j++)
-    {
-        Serial.print("\n[");
-        for (int i = 0; i < MFCC_OUTPUT_SIZE_Y; i++)
-        {
-            Serial.print(mfcc_data[j][i], 3);
-            if(i != MFCC_OUTPUT_SIZE_Y-1)
-                Serial.print(", ");
-        }
-        Serial.print("]");
-        if(j != MFCC_OUTPUT_SIZE_X-1)
-            Serial.print(",");
-    }
-    Serial.print("\n]\n");
+    Serial.print("\nPrediction : ");
+    float _prediction = prediction(mfcc_data);
+    Serial.print(_prediction);
+    if(1-_prediction<_prediction)
+        Serial.print("\t Bonjour !\n");
+    else
+        Serial.print("\t Ca va et toi ?\n");
 }
 
 void loop()
