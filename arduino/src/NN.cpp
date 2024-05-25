@@ -11,7 +11,7 @@
 byte activation_func[] = {   1,0};
 
 //layers
-const unsigned int layers[] = {115,4,1};
+const unsigned int layers[] = {FLAT_OUTPUT_SIZE,4,1};
 float *output  ;//sorties
 
 float weights[] = {

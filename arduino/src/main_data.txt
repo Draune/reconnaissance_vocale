@@ -1,15 +1,18 @@
 #include <Arduino.h>
 #include "acquisition.h"
 #include "MFCC.h"
-#include "CNN.h"
 
 uint16_t data[ACQUISITION_SIZE];
+float pre_emphasis_data[MFCC_PRE_ENPHASIS_OUTPUT_SIZE];
+float fft_data[MFCC_FFT_OUTPUT_SIZE];
+float mel_data[MFCC_OUTPUT_SIZE_X][MFCC_OUTPUT_SIZE_Y];
 float mfcc_data[MFCC_OUTPUT_SIZE_X][MFCC_OUTPUT_SIZE_Y];
 
 void setup()
 {
     Serial.begin(9600);
     acquisition(data);
+
     init_MFCC();
 
     MFCC(data, mfcc_data);
