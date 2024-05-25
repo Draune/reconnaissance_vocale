@@ -1,43 +1,69 @@
 #include <arduinoMFCC.h>
 #include "MFCC.h"
-// Paramètres MFCC
-#define MFCC_SIZE 13
-#define DCT_MFCC_SIZE 6
-#define FRAME_SIZE SAMPLE_RATE/48
-#define SAMPLE_RATE 8000  // Fréquence d'échantillonnage
-#define AUDIO_LENGTH SAMPLE_RATE*1 // Durée du signal audio en échantillons (t * fréquence d'échantillonage)
 
-
-MFCC ()
 // Déclaration de l'objet MFCC
 arduinoMFCC mymfcc(MFCC_SIZE, DCT_MFCC_SIZE, FRAME_SIZE, SAMPLE_RATE);
 
-// stockage du signal audio
-int16_t audioSignal[AUDIO_LENGTH];
-
 // stockage les coefficients MFCC
 float mfcc[MFCC_SIZE];
+float mfcc_inputs[FRAME_SIZE];
 
-void setup() {
-  Serial.begin(9600);
-  while (!Serial);
-
-  //fonction pour charger le signal audio
-
-  // préparation du sgnal a la conversions en MFCCs
-  mymfcc.pre_emphasis((uint16_t)FRAME_SIZE, audioSignal);
-  mymfcc.create_hamming_window();
-
-  mymfcc.create_mel_filter_bank();
+void init_MFCC(){
+    mymfcc.create_hamming_window();
+    mymfcc.create_mel_filter_bank();
+    mymfcc.create_dct_matrix();
 }
 
-void loop() {
+void MFCC(uint16_t inputs[MFCC_INPUT_SIZE], float outputs[MFCC_OUTPUT_SIZE_X][MFCC_OUTPUT_SIZE_Y])
+{
+    for (int i = 0; i < MFCC_OUTPUT_SIZE_X; i++)
+    {
+        for (int j = 0; j < FRAME_SIZE; j++)
+        {
+            mfcc_inputs[j] = float(inputs[i*(FRAME_SIZE/2) + j]);
+        }
+        // Calcul des MFCCs pour la trame
+        mymfcc.computeWithDCT(mfcc_inputs, outputs[i]);
+    }
+}
 
-  // Découper le signal audio en 13 trames par secondes superposé à hauteur de 50%
-  for (int i = 0; i < AUDIO_LENGTH - FRAME_SIZE; i += FRAME_SIZE / 2) {
-    // Calcul des MFCCs pour la trame
-    mymfcc.compute(audioSignal + i, mfcc);
+void MFCC_pre_emphasis(uint16_t inputs[MFCC_PRE_ENPHASIS_INPUT_SIZE], float outputs[MFCC_PRE_ENPHASIS_OUTPUT_SIZE])
+{
+    for (int i = 0; i < mymfcc._frame_size; i++)
+    {
+        mymfcc._frame[i] = float(inputs[i+FRAME_SIZE]);
+    }
+    mymfcc.pre_emphasis();
+    for (int i = 0; i < mymfcc._frame_size; i++)
+    {
+        outputs[i] = mymfcc._frame[i];
+    }
+}
 
-  while (true);
-  }
+void MFCC_fft(uint16_t inputs[MFCC_FFT_INPUT_SIZE], float outputs[MFCC_FFT_OUTPUT_SIZE])
+{
+    for (int i = 0; i < mymfcc._frame_size; i++)
+    {
+        mymfcc._frame[i] = float(inputs[i+FRAME_SIZE]);
+    }
+    mymfcc.pre_emphasis();
+    mymfcc.apply_hamming_window();
+    mymfcc.apply_fft();
+    for (int i = 0; i < mymfcc._frame_size; i++)
+    {
+        outputs[i] = mymfcc._frame[i];
+    }
+}
+
+void MFCC_mel(uint16_t inputs[MFCC_FFT_INPUT_SIZE], float outputs[MFCC_OUTPUT_SIZE_X][MFCC_OUTPUT_SIZE_Y])
+{
+    for (int i = 0; i < MFCC_OUTPUT_SIZE_X; i++)
+    {
+        for (int j = 0; j < FRAME_SIZE; j++)
+        {
+            mfcc_inputs[j] = float(inputs[i*(FRAME_SIZE/2) + j]);
+        }
+        // Calcul des MFCCs pour la trame
+        mymfcc.compute(mfcc_inputs, outputs[i]);
+    }
 }

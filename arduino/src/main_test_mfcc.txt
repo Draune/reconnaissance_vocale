@@ -1,0 +1,73 @@
+#include <Arduino.h>
+#include "acquisition.h"
+#include "MFCC.h"
+
+uint16_t data[ACQUISITION_SIZE];
+float pre_emphasis_data[MFCC_PRE_ENPHASIS_OUTPUT_SIZE];
+float fft_data[MFCC_FFT_OUTPUT_SIZE];
+float mel_data[MFCC_OUTPUT_SIZE_X][MFCC_OUTPUT_SIZE_Y];
+float mfcc_data[MFCC_OUTPUT_SIZE_X][MFCC_OUTPUT_SIZE_Y];
+
+void setup()
+{
+    Serial.begin(460800);
+    acquisition(data);
+
+    init_MFCC();
+    
+    Serial.print('\n');
+    Serial.print("data sans filtre :\n");
+    for (int i = 0; i < ACQUISITION_SIZE; i++)
+    {
+        Serial.print(data[i+FRAME_SIZE]);
+        Serial.print('\n');
+    }
+
+    /*MFCC_pre_emphasis(data, pre_emphasis_data);
+    Serial.print('\n');
+    Serial.print("data pre-emphasis :\n");
+    for (int i = 0; i < FRAME_SIZE; i++)
+    {
+        Serial.print(pre_emphasis_data[i], 7);
+        Serial.print('\n');
+    }
+
+    MFCC_fft(data, fft_data);
+    Serial.print('\n');
+    Serial.print("data fft :\n");
+    for (int i = 0; i < FRAME_SIZE; i++)
+    {
+        Serial.print(fft_data[i], 3);
+        Serial.print('\n');
+    }*/
+
+    MFCC_mel(data, mel_data);
+    Serial.print('\n');
+    Serial.print("data mel :\n");
+    for (int j = 0; j < MFCC_OUTPUT_SIZE_X; j++)
+    {
+
+        for (int i = 0; i < MFCC_OUTPUT_SIZE_Y; i++)
+        {
+            Serial.print(mel_data[j][i], 3);
+            Serial.print('\n');
+        }
+    }
+
+    MFCC(data, mfcc_data);
+    Serial.print('\n');
+    Serial.print("data mfcc :\n");
+    for (int j = 0; j < MFCC_OUTPUT_SIZE_X; j++)
+    {
+
+        for (int i = 0; i < MFCC_OUTPUT_SIZE_Y; i++)
+        {
+            Serial.print(mfcc_data[j][i], 3);
+            Serial.print('\n');
+        }
+    }
+}
+
+void loop()
+{
+}

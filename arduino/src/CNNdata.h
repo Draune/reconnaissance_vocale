@@ -1,7 +1,9 @@
 #ifndef CNNDATA_H
 #define CNNDATA_H
 
-#define CNNDATA_INPUT_SIZE_X 48
-#define CNNDATA_INPUT_SIZE_Y 13
+#include "MFCC.h"
+
+#define CNNDATA_INPUT_SIZE_X (MFCC_OUTPUT_SIZE_X)
+#define CNNDATA_INPUT_SIZE_Y (MFCC_OUTPUT_SIZE_Y)
 
 #endif

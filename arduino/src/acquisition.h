@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define ACQUISITION_SIZE 16000
+#define ACQUISITION_SIZE 8000
 
 void acquisition(uint16_t outputs[ACQUISITION_SIZE]);
 
